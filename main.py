@@ -21,7 +21,7 @@ from psychopy_experiment_helpers.experiment_info import (
 )
 from psychopy_experiment_helpers.save_data import DataSaver
 from psychopy_experiment_helpers.screen import create_win
-from feedback_task.feedback_task import feedback_task
+from mcgurk_task import mcgurk_task
 
 __author__ = ["ociepkam", "filyp"]
 
@@ -112,7 +112,7 @@ logging.data("Experiment name: {}".format(experiment_name))
 exp = Experiment(config, data_saver)
 
 # Experiment
-feedback_task(exp, config, data_saver)
+mcgurk_task(exp, config, data_saver)
 
 # Save data
 data_saver.save_beh()

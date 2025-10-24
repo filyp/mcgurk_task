@@ -1,44 +1,24 @@
 # * EEG
 Send_EEG_trigg: False
-Trigger_type: "usb"  # "usb" or "parport"
 Actiview_reminder: True
 
 # * view parameters
 # Screen_color: "grey"
-Screen_color: "#A3A3A3"
+Screen_color: "#877c76"
 Text_size: 0.04
 Text_font: "Arial"
 Text_color: "black"
 
 # Stimulus sizes 
-Screen_distance: 50  # cm
-Screen_height: 30  # cm
+# Screen_distance: 50  # cm
+# Screen_height: 30  # cm
 # In degrees of visual angle
-Fixation_size: 0.5
-Star_size: 2
-Feedback_size: 2
-Face_feedback_size: 4
-Text_feedback_size: 1.2  # height, also in degrees
-Speed_feedback_size: 1.2  # height, also in degrees
-
-# General settings
-Experiment_versions: ["-", "a", "m"]
-Response_key: "space"
-Speed_feedback: False  # whether to also tell people to go faster or slower
-N_trials_per_block: 5  # 50 todo
-N_train_trials: 5  # 20 todo
-N_neutral_trials_per_block: 1  # 8 todo
-Feedback_types: ["number", "facesimple", "facecomplex", "symbol", "color", "text"]
+#
+# Stimulus sizes 
+Video_height: 0.5  # in screen height
 
 # Timings
-ITI_min: 1.4
-ITI_max: 1.8
-Star_duration: 0.250
-Max_wait: 1.750
-Pre_feedback_blank_duration: 1.0
-Feedback_duration: 1.0
-Speed_feedback_duration: 1.0
-
+Pre_video_duration: 1.0
 
 Greeting_texts:
   - |
@@ -57,39 +37,13 @@ Greeting_texts:
 
     (wciśnij spację aby kontynuować)
 
-Post_training_text: |
-    Koniec treningu.
-
-    Teraz przechodzimy do właściwego zadania.
-    Ma ono 18 bloków, pomiędzy którymi będą przerwy.
-    Jeśli potrzebujesz się poruszyć, najlepiej wykorzystaj do tego przerwy.
-    Całe zadanie zajmie około godzinę.
-
-    (wciśnij spację aby kontynuować)
-
-New_block_text: |
-    Przerwa na odpoczynek.
-    
-    W kolejnym bloku, informacją zwrotną będą
-    {f_expl}
-    (pokazane poniżej).
-
-    (wciśnij spację aby rozpocząć blok {block_num}/18)
+Wait_text: |
+    wciśnij spację aby kontynuować
 
 End_text: |
     Gratulacje! Badanie zakończyło się. Zaczekaj na osobę przeprowadzającą eksperyment.
 
     (wciśnij spację aby zakończyć badanie)
-
-Feedback_explanations:
-  number: "liczy +1 albo -1"
-  facesimple: "uśmiechnięte albo smutne emotikony"
-  facecomplex: "uśmiechnięte albo smutne zdjęcia eksperymentatora"
-  symbol: "krzyżyki albo fajki"
-  color: "zielone albo czerwone kwadraty"
-  text: "słowa 'dobrze' albo 'błędnie'"
-
-
 
 
 
