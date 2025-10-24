@@ -1,3 +1,4 @@
+from copy import deepcopy
 import random
 from pathlib import Path
 
@@ -27,9 +28,6 @@ def mcgurk_task(exp, config, data_saver):
         str(f.relative_to(stimuli_dir)) for f in stimuli_dir.glob("**/*.mp4")
     ]
 
-    random.shuffle(all_video_names)
-    print(all_video_names)
-
     movies = {
         video_name: visual.MovieStim(
             win,
@@ -48,7 +46,15 @@ def mcgurk_task(exp, config, data_saver):
     for greeting_text in config["Greeting_texts"]:
         show_info(exp, greeting_text, duration=None)
 
-    for movie_name, movie in movies.items():
+    video_order = deepcopy(all_video_names)
+    video_order = video_order * config["Repeats"]
+
+    random.shuffle(video_order)
+    print(len(video_order))
+    print(video_order)
+    for movie_name in video_order:
+        movie = movies[movie_name]
+
         # ! wait for space press
         show_info(exp, config["Wait_text"], duration=None)
         win.flip()  # to make the text disappear
