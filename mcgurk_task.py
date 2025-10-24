@@ -14,26 +14,6 @@ stimuli_dir = Path(__file__).parent / "categorized_videos"
 #     return size_in_cm / config["Screen_height"]
 
 
-# def load_img(name, size, win, config):
-#     return visual.ImageStim(
-#         win=win,
-#         image=stimuli_dir / name,
-#         size=(None, deg_to_height(size, config)),
-#         interpolate=True,
-#     )
-
-
-# def load_text(text, win, config):
-#     return visual.TextStim(
-#         win=win,
-#         text=text,
-#         color="black",
-#         # height=config["Text_feedback_font_size"],
-#         height=deg_to_height(config["Speed_feedback_size"], config),
-#         font="Arial",
-#     )
-
-
 def mcgurk_task(exp, config, data_saver):
     # unpack necessary objects for easier access
     win = exp.win
@@ -43,7 +23,9 @@ def mcgurk_task(exp, config, data_saver):
     trigger_handler = TriggerHandler(config["Send_EEG_trigg"], data_saver=data_saver)
     exp.trigger_handler = trigger_handler
 
-    all_video_names = [str(f.relative_to(stimuli_dir)) for f in stimuli_dir.glob("**/*.mp4")]
+    all_video_names = [
+        str(f.relative_to(stimuli_dir)) for f in stimuli_dir.glob("**/*.mp4")
+    ]
 
     random.shuffle(all_video_names)
     print(all_video_names)
@@ -52,7 +34,7 @@ def mcgurk_task(exp, config, data_saver):
         video_name: visual.MovieStim(
             win,
             stimuli_dir / video_name,
-            # size=(None, deg_to_height(3, config)),
+            # size=(None, deg_to_height(config["Video_height_deg"], config)),
             size=(None, config["Video_height"]),
             units="height",  # or 'deg', 'norm', etc.
             volume=1.0,  # Audio volume (0.0 to 1.0)
@@ -70,7 +52,7 @@ def mcgurk_task(exp, config, data_saver):
         # ! wait for space press
         show_info(exp, config["Wait_text"], duration=None)
         win.flip()  # to make the text disappear
-        
+
         # ! wait some duration
         core.wait(config["Pre_video_duration"])
 
