@@ -1,0 +1,95 @@
+# * EEG
+Send_EEG_trigg: True
+Trigger_type: "usb"  # "usb" or "parport"
+Actiview_reminder: True
+
+# * view parameters
+# Screen_color: "grey"
+Screen_color: "#A3A3A3"
+Text_size: 0.04
+Text_font: "Arial"
+Text_color: "black"
+
+# Stimulus sizes 
+Screen_distance: 65  # cm
+Screen_height: 30  # cm
+# In degrees of visual angle
+Fixation_size: 0.5
+Star_size: 2
+Feedback_size: 2
+Face_feedback_size: 4
+Text_feedback_size: 1.2  # height, also in degrees
+Speed_feedback_size: 1.2  # height, also in degrees
+
+# General settings
+Experiment_versions: ["-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+Response_key: "space"
+Speed_feedback: False  # whether to also tell people to go faster or slower
+N_trials_per_block: 50
+N_train_trials: 20
+N_neutral_trials_per_block: 8
+Feedback_types: ["number", "facesimple", "facecomplex", "symbol", "color", "text"]
+
+# Timings
+ITI_min: 1.4
+ITI_max: 1.8
+Star_duration: 0.250
+Max_wait: 1.750
+Pre_feedback_blank_duration: 1.0
+Feedback_duration: 1.0
+Speed_feedback_duration: 1.0
+
+
+Greeting_texts:
+  - |
+    Witaj w naszym badaniu!
+
+    (wciśnij spację aby kontynuować)
+  - |
+    Twoim zadaniem będzie szacowanie upływu jednej sekundy.
+    Staraj się wcisnąć spację dokładnie sekundę po pojawieniu się gwiazdki na ekranie.
+
+    (wciśnij spację aby kontynuować)
+  - |
+    Teraz przejdziemy przez kilka przykładów.
+    Po każdej próbie dostaniesz informację,
+    czy byłeś/byłaś wystarczająca blisko sekundy.
+
+    (wciśnij spację aby kontynuować)
+
+Post_training_text: |
+    Koniec treningu.
+
+    Teraz przechodzimy do właściwego zadania.
+    Ma ono 18 bloków, pomiędzy którymi będą przerwy.
+    Jeśli potrzebujesz się poruszyć, najlepiej wykorzystaj do tego przerwy.
+    Całe zadanie zajmie około godzinę.
+
+    (wciśnij spację aby kontynuować)
+
+New_block_text: |
+    Przerwa na odpoczynek.
+    
+    W kolejnym bloku, informacją zwrotną będą
+    {f_expl}
+    (pokazane poniżej).
+
+    (wciśnij spację aby rozpocząć blok {block_num}/18)
+
+End_text: |
+    Gratulacje! Badanie zakończyło się. Zaczekaj na osobę przeprowadzającą eksperyment.
+
+    (wciśnij spację aby zakończyć badanie)
+
+Feedback_explanations:
+  number: "liczy +1 albo -1"
+  facesimple: "uśmiechnięte albo smutne emotikony"
+  facecomplex: "uśmiechnięte albo smutne zdjęcia eksperymentatora"
+  symbol: "krzyżyki albo fajki"
+  color: "zielone albo czerwone kwadraty"
+  text: "słowa 'dobrze' albo 'błędnie'"
+
+
+
+
+
