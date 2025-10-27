@@ -10,12 +10,11 @@ Text_font: "Arial"
 Text_color: "black"
 
 Break_every_n_trials: 12
-# Repeats: 2  # How many times each video is shown
 Repeats:
-  Congruent: 2
-  Incongruent_McGurk: 2
-  Incongruent_Phe: 4
-  Incongruent_Vis: 4
+  Congruent: 1
+  Incongruent_McGurk: 1
+  Incongruent_Phe: 1
+  Incongruent_Vis: 1
 
 # # Stimulus sizes 
 # Screen_distance: 50  # cm
@@ -23,7 +22,7 @@ Repeats:
 # In degrees of visual angle
 #
 # Stimulus sizes 
-Video_height: 0.5  # in screen height
+Video_height: 0.57  # in screen height
 
 # Timings
 Pre_video_duration: 1.0
@@ -34,9 +33,23 @@ Greeting_texts:
 
     (wciśnij spację aby kontynuować)
   - |
-    TODO instrukcje skibidi
+    Za chwilę weźmiesz udział w eksperymencie dotyczącym 
+    percepcji i rozumienia dźwięków mowy.
+
+    Podczas eksperymentu będziemy pokazywać Ci filmy z osobą
+    wypowiadającą różne sylaby – po jednej sylabie na raz.
 
     (wciśnij spację aby kontynuować)
+  - |
+    Prosimy, abyś podczas oglądania filmów skupił/a swoją
+    uwagę wyłącznie na osobıe mówiącej.
+
+    Obejrzysz łącznie TODO filmów.
+    Całe badanie potrwa około TODO minut.
+
+    (wciśnij spację aby kontynuować)
+  - |
+    Wciśnij spację aby rozpocząć badanie.
 
 Break_text: |
     Przerwa!
@@ -44,7 +57,8 @@ Break_text: |
     (wciśnij spację aby kontynuować)
 
 End_text: |
-    Gratulacje! Badanie zakończyło się. Zaczekaj na osobę przeprowadzającą eksperyment.
+    Gratulacje! Badanie zakończyło się. 
+    Zaczekaj na osobę przeprowadzającą eksperyment.
 
     (wciśnij spację aby zakończyć badanie)
 

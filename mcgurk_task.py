@@ -1,5 +1,6 @@
-from copy import deepcopy
 import random
+import time
+from copy import deepcopy
 from pathlib import Path
 
 from psychopy import core, event, logging, visual
@@ -19,6 +20,8 @@ def mcgurk_task(exp, config, data_saver):
     # unpack necessary objects for easier access
     win = exp.win
     clock = exp.clock
+    
+    assert config["Pre_video_duration"] > 0.4, "Loading videos may interfere with timing if ITI is so short"
 
     # EEG triggers
     trigger_handler = TriggerHandler(config["Send_EEG_trigg"], data_saver=data_saver)
@@ -27,20 +30,6 @@ def mcgurk_task(exp, config, data_saver):
     all_video_names = [
         str(f.relative_to(stimuli_dir)) for f in stimuli_dir.glob("**/*.mp4")
     ]
-
-    movies = {
-        video_name: visual.MovieStim(
-            win,
-            stimuli_dir / video_name,
-            # size=(None, deg_to_height(config["Video_height_deg"], config)),
-            size=(None, config["Video_height"]),
-            units="height",  # or 'deg', 'norm', etc.
-            volume=1.0,  # Audio volume (0.0 to 1.0)
-            loop=False,  # set to True if you want the video to loop
-            autoStart=False,  # automatically start playing when drawn
-        )
-        for video_name in all_video_names
-    }
 
     # ! greeting texts
     for greeting_text in config["Greeting_texts"]:
@@ -62,12 +51,26 @@ def mcgurk_task(exp, config, data_saver):
         if (i + 1) % config["Break_every_n_trials"] == 0:
             show_info(exp, config["Break_text"], duration=None)
 
-        # ! wait some duration
-        win.flip()  # to make the text or video disappear
-        core.wait(config["Pre_video_duration"])
+        # ! wait some duration while loading a movie
+        win.flip()  # to make the text or video disappears
+        clock.reset()
+        # * load movie
+        movie = visual.MovieStim(
+            win,
+            stimuli_dir / movie_name,
+            size=(config["Video_height"] / 9 * 16, config["Video_height"]),
+            units="height",  # or 'deg', 'norm', etc.
+            volume=1.0,  # Audio volume (0.0 to 1.0)
+            loop=False,  # set to True if you want the video to loop
+            autoStart=False,  # automatically start playing when drawn
+        )
+        to_wait = config["Pre_video_duration"] - clock.getTime()
+        if to_wait > 0:
+            core.wait(to_wait)
+        else:
+            logging.warning(f"Movie loaded in {clock.getTime()} seconds")
 
         # ! draw movie
-        movie = movies[movie_name]
         movie.seek(0)
         win.flip()  # wait for a new frame to always start the video exactly on new frame
         movie.play()  # it already plays (sound is playing)
@@ -78,6 +81,9 @@ def mcgurk_task(exp, config, data_saver):
         while not movie.isFinished:
             movie.draw()
             win.flip()
+
+        movie.stop()
+        del movie
         
         data_saver.check_exit()
 
