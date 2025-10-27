@@ -28,17 +28,17 @@ class TriggerHandler:
         else:
             self.port_eeg = None
         self.data_saver = data_saver
-        self.trigger_no = 0
+        self.trigger_no = 1
 
     def send_trigger(self, trigger_name):
-        # * iterate counter
-        self.trigger_no += 1
-        if self.trigger_no == 9:
-            self.trigger_no = 1
-
         # * format and save trigger name
         line = f"{self.trigger_no}:{trigger_name}"
         self.data_saver.triggers_list.append(line)
 
         if self.port_eeg is not None:
             simple_send_trigger(self.port_eeg, self.trigger_no)
+
+        # * iterate counter
+        self.trigger_no *= 2
+        if self.trigger_no == 256:
+            self.trigger_no = 1
