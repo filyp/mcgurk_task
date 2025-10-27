@@ -9,7 +9,13 @@ Text_size: 0.04
 Text_font: "Arial"
 Text_color: "black"
 
-Repeats: 2  # How many times each video is shown
+Break_every_n_trials: 12
+# Repeats: 2  # How many times each video is shown
+Repeats:
+  Congruent: 2
+  Incongruent_McGurk: 2
+  Incongruent_Phe: 4
+  Incongruent_Vis: 4
 
 # # Stimulus sizes 
 # Screen_distance: 50  # cm
@@ -32,8 +38,10 @@ Greeting_texts:
 
     (wciśnij spację aby kontynuować)
 
-Wait_text: |
-    wciśnij spację aby kontynuować
+Break_text: |
+    Przerwa!
+
+    (wciśnij spację aby kontynuować)
 
 End_text: |
     Gratulacje! Badanie zakończyło się. Zaczekaj na osobę przeprowadzającą eksperyment.
