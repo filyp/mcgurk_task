@@ -46,23 +46,28 @@ def mcgurk_task(exp, config, data_saver):
     for greeting_text in config["Greeting_texts"]:
         show_info(exp, greeting_text, duration=None)
 
-    video_order = deepcopy(all_video_names)
-    video_order = video_order * config["Repeats"]
+    # ! create movie order
+    # movie_order = deepcopy(all_video_names)
+    # movie_order = movie_order * config["Repeats"]
+    movie_order = []
+    for type_, repeats in config["Repeats"].items():
+        type_movies = [n for n in all_video_names if n.startswith(type_)]
+        movie_order.extend(type_movies * repeats)
+    random.shuffle(movie_order)
+    print(len(movie_order))
+    print(movie_order)
 
-    random.shuffle(video_order)
-    print(len(video_order))
-    print(video_order)
-    for movie_name in video_order:
-        movie = movies[movie_name]
-
-        # ! wait for space press
-        show_info(exp, config["Wait_text"], duration=None)
-        win.flip()  # to make the text disappear
+    for i, movie_name in enumerate(movie_order):
+        # ! if block break, wait for space press
+        if (i + 1) % config["Break_every_n_trials"] == 0:
+            show_info(exp, config["Break_text"], duration=None)
 
         # ! wait some duration
+        win.flip()  # to make the text or video disappear
         core.wait(config["Pre_video_duration"])
 
         # ! draw movie
+        movie = movies[movie_name]
         movie.seek(0)
         win.flip()  # wait for a new frame to always start the video exactly on new frame
         movie.play()  # it already plays (sound is playing)
@@ -73,5 +78,7 @@ def mcgurk_task(exp, config, data_saver):
         while not movie.isFinished:
             movie.draw()
             win.flip()
+        
+        data_saver.check_exit()
 
     show_info(exp, config["End_text"], duration=None)
