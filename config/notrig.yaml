@@ -12,9 +12,9 @@ Text_color: "black"
 Break_every_n_trials: 12
 Repeats:
   Congruent: 1
-  Incongruent_McGurk: 1
-  Incongruent_Phe: 1
-  Incongruent_Vis: 1
+  Incongruent_McGurk: 2
+  Incongruent_Phe: 2
+  Incongruent_Vis: 2
 
 # Stimulus sizes 
 Video_height: 0.57  # in screen height
