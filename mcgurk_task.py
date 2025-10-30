@@ -38,53 +38,59 @@ def mcgurk_task(exp, config, data_saver):
     # ! create movie order
     # movie_order = deepcopy(all_video_names)
     # movie_order = movie_order * config["Repeats"]
-    movie_order = []
+    # movie_order = []
+    movie_order = {}
     for type_, repeats in config["Repeats"].items():
         type_movies = [n for n in all_video_names if n.startswith(type_)]
-        movie_order.extend(type_movies * repeats)
-    random.shuffle(movie_order)
-    print(len(movie_order))
-    print(movie_order)
+        random.shuffle(type_movies)
+        movie_order[type_] = type_movies * repeats
 
-    for i, movie_name in enumerate(movie_order):
-        # ! if block break, wait for space press
-        if (i + 1) % config["Break_every_n_trials"] == 0:
+    types_order = list(movie_order.keys())
+    random.shuffle(types_order)
+    print(types_order)
+
+    for i, type_ in enumerate(types_order):
+        one_type_movies = movie_order[type_]
+
+        # ! block break, wait for space press
+        if i != 0:
             show_info(exp, config["Break_text"], duration=None)
 
-        # ! wait some duration while loading a movie
-        win.flip()  # to make the text or video disappears
-        clock.reset()
-        # * load movie
-        movie = visual.MovieStim(
-            win,
-            stimuli_dir / movie_name,
-            size=(config["Video_height"] / 9 * 16, config["Video_height"]),
-            units="height",  # or 'deg', 'norm', etc.
-            volume=1.0,  # Audio volume (0.0 to 1.0)
-            loop=False,  # set to True if you want the video to loop
-            autoStart=False,  # automatically start playing when drawn
-        )
-        to_wait = config["Pre_video_duration"] - clock.getTime()
-        if to_wait > 0:
-            core.wait(to_wait)
-        else:
-            logging.warning(f"Movie loaded in {clock.getTime()} seconds")
+        for movie_name in one_type_movies:
+            # ! wait some duration while loading a movie
+            win.flip()  # to make the text or video disappears
+            clock.reset()
+            # * load movie
+            movie = visual.MovieStim(
+                win,
+                stimuli_dir / movie_name,
+                size=(config["Video_height"] / 9 * 16, config["Video_height"]),
+                units="height",  # or 'deg', 'norm', etc.
+                volume=1.0,  # Audio volume (0.0 to 1.0)
+                loop=False,  # set to True if you want the video to loop
+                autoStart=False,  # automatically start playing when drawn
+            )
+            to_wait = config["Pre_video_duration"] - clock.getTime()
+            if to_wait > 0:
+                core.wait(to_wait)
+            else:
+                logging.warning(f"Movie loaded in {clock.getTime()} seconds")
 
-        # ! draw movie
-        movie.seek(0)
-        win.flip()  # wait for a new frame to always start the video exactly on new frame
-        movie.play()  # it already plays (sound is playing)
-        # sending the trigger takes 10ms, but the audio is video is already playing
-        #     (at least the audio, video not yet)
-        #     so the timing is correct - trigger starts to be sent right after video start
-        trigger_handler.send_trigger(movie_name)
-        while not movie.isFinished:
-            movie.draw()
-            win.flip()
+            # ! draw movie
+            movie.seek(0)
+            win.flip()  # wait for a new frame to always start the video exactly on new frame
+            movie.play()  # it already plays (sound is playing)
+            # sending the trigger takes 10ms, but the audio is video is already playing
+            #     (at least the audio, video not yet)
+            #     so the timing is correct - trigger starts to be sent right after video start
+            trigger_handler.send_trigger(movie_name)
+            while not movie.isFinished:
+                movie.draw()
+                win.flip()
 
-        movie.stop()
-        del movie
-        
-        data_saver.check_exit()
+            movie.stop()
+            del movie
+            
+            data_saver.check_exit()
 
     show_info(exp, config["End_text"], duration=None)
